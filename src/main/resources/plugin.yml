@@ -1,0 +1,6 @@
+name: HexagonKnockback
+version: '${project.version}'
+main: hexagonstore.knockback.KnockbackPlugin
+authors: sailez_
+description: Plugin de minigame knockback.
+website: https://dsc.gg/hexagonstore
