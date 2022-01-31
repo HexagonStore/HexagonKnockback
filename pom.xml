@@ -48,5 +48,55 @@
             <artifactId>lombok</artifactId>
             <version>1.18.14</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.elicodes.vw</groupId>
+            <artifactId>vw-api</artifactId>
+            <version>1.0.1</version>
+            <scope>system</scope>
+            <systemPath>D:/Bukkit APIs Or Plugins/VW_API.jar</systemPath>
+        </dependency>
     </dependencies>
+
+
+    <build>
+        <defaultGoal>clean install</defaultGoal>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>D:\Seu_chatu\Desenvolvidos\SERVIDORES\PaperSpigot\HexagonKnockback.jar</outputFile>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>org.spigotmc:*</exclude>
+                                </excludes>
+                            </artifactSet>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

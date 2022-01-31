@@ -29,9 +29,9 @@ public class PlayersDao {
 
         String table = "create table if not exists knockback_users(`playerName` TEXT, `kills` DOUBLE, `deaths` DOUBLE)";
 
-        if(config.getBoolean("MySQL.ativar")) {
+        if (config.getBoolean("MySQL.ativar")) {
             database = new MySQL(table, host, user, pass, db);
-        }else database = new SQLite(table);
+        } else database = new SQLite(table);
 
         database.open();
         load();
@@ -45,7 +45,8 @@ public class PlayersDao {
         try (Connection connection = database.getConnection()) {
             try (PreparedStatement stm = connection.prepareStatement("SELECT * FROM knockback_users")) {
                 try (ResultSet rs = stm.executeQuery()) {
-                    if (rs.next()) save(new KPlayer(rs.getString("playerName"), rs.getDouble("kills"), rs.getDouble("deaths")));
+                    if (rs.next())
+                        save(new KPlayer(rs.getString("playerName"), rs.getDouble("kills"), rs.getDouble("deaths")));
                 }
             }
         } catch (SQLException e) {
@@ -54,32 +55,30 @@ public class PlayersDao {
     }
 
     public void save(KPlayer kPlayer) {
-        if(contains(kPlayer.getPlayerName())) {
-            try (Connection connection = database.getConnection()) {
-                try (PreparedStatement stm = connection.prepareStatement("INSERT INTO knockback_users(playerName, kills, deaths) VALUES(?,?,?)")) {
-                    stm.setString(1, kPlayer.getPlayerName());
-                    stm.setDouble(2, kPlayer.getKills());
-                    stm.setDouble(3, kPlayer.getDeaths());
+        try (Connection connection = database.getConnection()) {
+            try (PreparedStatement stm = connection.prepareStatement("INSERT INTO knockback_users(playerName, kills, deaths) VALUES(?,?,?)")) {
+                stm.setString(1, kPlayer.getPlayerName());
+                stm.setDouble(2, kPlayer.getKills());
+                stm.setDouble(3, kPlayer.getDeaths());
 
-                    stm.executeUpdate();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+                stm.executeUpdate();
             }
-            players.put(kPlayer.getPlayerName().toLowerCase(), kPlayer);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
+        players.put(kPlayer.getPlayerName().toLowerCase(), kPlayer);
     }
 
     public void update(KPlayer kPlayer) {
         try (Connection connection = database.getConnection()) {
-            try (PreparedStatement stm = connection.prepareStatement("UPDATE knockback_users SET kills = ?, SET deaths = ? WHERE playerName = ?")){
+            try (PreparedStatement stm = connection.prepareStatement("UPDATE knockback_users SET kills = ?, SET deaths = ? WHERE playerName = ?")) {
                 stm.setDouble(1, kPlayer.getKills());
                 stm.setDouble(2, kPlayer.getDeaths());
                 stm.setString(3, kPlayer.getPlayerName());
 
                 stm.executeUpdate();
             }
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
@@ -89,13 +88,13 @@ public class PlayersDao {
     }
 
     public void remove(String playerName) {
-        if(contains(playerName.toLowerCase())) {
+        if (contains(playerName.toLowerCase())) {
             try (Connection connection = database.getConnection()) {
-                try (PreparedStatement stm = connection.prepareStatement("DELETE FROM knockback_users WHERE playerName = ?")){
+                try (PreparedStatement stm = connection.prepareStatement("DELETE FROM knockback_users WHERE playerName = ?")) {
                     stm.setString(1, playerName);
                     stm.executeUpdate();
                 }
-            }catch (SQLException ex) {
+            } catch (SQLException ex) {
                 ex.printStackTrace();
             }
 
