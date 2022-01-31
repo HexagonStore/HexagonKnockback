@@ -1,0 +1,3 @@
+displayName: "Padrão" #Nome formatado do mapa;
+world: "default" #Arquivo dentro da pasta schematics;
+spawnLoc: "nulo" #Localização de respawn dos jogadores; (Altere in-game).

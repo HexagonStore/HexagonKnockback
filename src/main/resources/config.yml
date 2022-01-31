@@ -1,0 +1,5 @@
+Cooldown:
+  change_map: 300 #Cooldown para trocar o mapa. (Em segundos);
+  super_jump: 15 #Cooldown para usar o super jump. (Em segudnos);
+  bow: 20 #Cooldown para usar o arco. (Em segundos);
+  speed: 15 #Cooldown para usar o speed. (Em segundos);
