@@ -12,4 +12,10 @@ public class KPlayer {
 
     private boolean inJumpCooldown, inBowCooldown;
     private double jumpCooldown, bowCooldown;
+
+    public KPlayer(String playerName, double kills, double deaths) {
+        this.playerName = playerName;
+        this.kills = kills;
+        this.deaths = deaths;
+    }
 }

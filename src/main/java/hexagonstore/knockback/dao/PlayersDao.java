@@ -7,9 +7,12 @@ import hexagonstore.knockback.models.KPlayer;
 import hexagonstore.knockback.utils.EC_Config;
 import lombok.Getter;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
-//COLOCAR DATABASE NOS SAVE E REMOVE;
 @Getter
 public class PlayersDao {
 
@@ -31,14 +34,54 @@ public class PlayersDao {
         }else database = new SQLite(table);
 
         database.open();
+        load();
     }
 
-    public void save() {
+    public void close() {
         database.close();
     }
 
-    public void add(KPlayer kPlayer) {
-        players.put(kPlayer.getPlayerName().toLowerCase(), kPlayer);
+    private void load() {
+        try (Connection connection = database.getConnection()) {
+            try (PreparedStatement stm = connection.prepareStatement("SELECT * FROM knockback_users")) {
+                try (ResultSet rs = stm.executeQuery()) {
+                    if (rs.next()) save(new KPlayer(rs.getString("playerName"), rs.getDouble("kills"), rs.getDouble("deaths")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void save(KPlayer kPlayer) {
+        if(contains(kPlayer.getPlayerName())) {
+            try (Connection connection = database.getConnection()) {
+                try (PreparedStatement stm = connection.prepareStatement("INSERT INTO knockback_users(playerName, kills, deaths) VALUES(?,?,?)")) {
+                    stm.setString(1, kPlayer.getPlayerName());
+                    stm.setDouble(2, kPlayer.getKills());
+                    stm.setDouble(3, kPlayer.getDeaths());
+
+                    stm.executeUpdate();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            players.put(kPlayer.getPlayerName().toLowerCase(), kPlayer);
+        }
+    }
+
+    public void update(KPlayer kPlayer) {
+        try (Connection connection = database.getConnection()) {
+            try (PreparedStatement stm = connection.prepareStatement("UPDATE knockback_users SET kills = ?, SET deaths = ? WHERE playerName = ?")){
+                stm.setDouble(1, kPlayer.getKills());
+                stm.setDouble(2, kPlayer.getDeaths());
+                stm.setString(3, kPlayer.getPlayerName());
+
+                stm.executeUpdate();
+            }
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void remove(KPlayer kPlayer) {
@@ -46,14 +89,21 @@ public class PlayersDao {
     }
 
     public void remove(String playerName) {
-        players.remove(playerName.toLowerCase());
+        if(contains(playerName.toLowerCase())) {
+            try (Connection connection = database.getConnection()) {
+                try (PreparedStatement stm = connection.prepareStatement("DELETE FROM knockback_users WHERE playerName = ?")){
+                    stm.setString(1, playerName);
+                    stm.executeUpdate();
+                }
+            }catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+            players.remove(playerName.toLowerCase());
+        }
     }
 
     public boolean contains(String playerName) {
         return players.containsKey(playerName.toLowerCase());
-    }
-
-    public boolean contains(KPlayer kPlayer) {
-        return contains(kPlayer.getPlayerName().toLowerCase());
     }
 }

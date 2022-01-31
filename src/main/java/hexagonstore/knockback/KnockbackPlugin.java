@@ -27,6 +27,6 @@ public final class KnockbackPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        playersDao.save();
+        playersDao.close();
     }
 }
