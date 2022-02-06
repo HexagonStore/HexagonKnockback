@@ -27,8 +27,16 @@ public class PlayersDao {
         String pass = config.getString("MySQL.pass");
         String db = config.getString("MySQL.database");
 
-        String table = "create table if not exists knockback_users(`playerName` TEXT, `kills` DOUBLE, `deaths` DOUBLE)";
-
+        String table = "create table if not exists knockback_users" +
+                "(`playerName` TEXT, " +
+                "`kills` DOUBLE, " +
+                "`deaths` DOUBLE, " +
+                "`stickSlot` INT, " +
+                "`blocksSlot` INT, " +
+                "`bowSlot` INT, " +
+                "`superJump` INT, " +
+                "`speedSlot` INT, " +
+                "`enderPearlSlot` INT)";
         if (config.getBoolean("MySQL.ativar")) {
             database = new MySQL(table, host, user, pass, db);
         } else database = new SQLite(table);

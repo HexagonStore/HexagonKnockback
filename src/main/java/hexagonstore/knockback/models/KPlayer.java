@@ -13,6 +13,8 @@ public class KPlayer {
     private boolean inJumpCooldown, inBowCooldown, inSpeedCooldown;
     private double jumpCooldown, bowCooldown, speedCooldown;
 
+    private int stickSlot, blocksSlot, bowSlot, superJumpSlot, speedSlot, enderPearlSlot;
+
     public KPlayer(String playerName, double kills, double deaths) {
         this.playerName = playerName;
         this.kills = kills;

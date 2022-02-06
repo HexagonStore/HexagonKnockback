@@ -1,6 +1,7 @@
 package hexagonstore.knockback.events;
 
 import hexagonstore.knockback.dao.PlayersDao;
+import hexagonstore.knockback.manager.GameManager;
 import hexagonstore.knockback.models.KPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,9 +13,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class JoinEvent implements Listener {
 
     private PlayersDao playersDao;
+    private GameManager gameManager;
 
-    public JoinEvent(PlayersDao playersDao, JavaPlugin main) {
+    public JoinEvent(PlayersDao playersDao, GameManager gameManager, JavaPlugin main) {
         this.playersDao = playersDao;
+        this.gameManager = gameManager;
 
         Bukkit.getPluginManager().registerEvents(this, main);
     }
@@ -25,6 +28,6 @@ public class JoinEvent implements Listener {
         if(!playersDao.contains(player.getName())) playersDao.save(new KPlayer(player.getName(), 0, 0));
 
         player.getInventory().clear();
-        //Dar items
+        gameManager.giveItems(player);
     }
 }

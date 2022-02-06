@@ -2,7 +2,9 @@ package hexagonstore.knockback;
 
 import hexagonstore.knockback.dao.MapsDao;
 import hexagonstore.knockback.dao.PlayersDao;
+import hexagonstore.knockback.events.DeathEvent;
 import hexagonstore.knockback.events.JoinEvent;
+import hexagonstore.knockback.events.RespawnEvent;
 import hexagonstore.knockback.manager.GameManager;
 import hexagonstore.knockback.utils.EC_Config;
 import lombok.Getter;
@@ -33,7 +35,9 @@ public final class KnockbackPlugin extends JavaPlugin {
         mapsDao = new MapsDao();
         gameManager = new GameManager(cfg, playersDao, mapsDao);
 
-        new JoinEvent(playersDao, this);
+        new JoinEvent(playersDao, gameManager, this);
+        new DeathEvent(this);
+        new RespawnEvent(gameManager, this);
     }
 
     @Override

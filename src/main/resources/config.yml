@@ -3,3 +3,61 @@ Cooldown:
   super_jump: 15 #Cooldown para usar o super jump. (Em segudnos);
   bow: 20 #Cooldown para usar o arco. (Em segundos);
   speed: 15 #Cooldown para usar o speed. (Em segundos);
+
+Items:
+  Stick:
+    material: STICK
+    data: 0
+    name: "&eVarinha de repulsão"
+    lore:
+      - ""
+      - " &7Nivel de repulsão: &f{knockback-level}"
+    glow: true
+    knockback-level: 2
+    slot: 1
+  Blocos:
+    material: SANDSTONE
+    data: 0
+    name: "&eBlocos"
+    lore:
+      - ""
+      - " &7Use os blocos a seu favor"
+    glow: false
+    amount: 64
+    slot: 2
+  Arco:
+    material: BOW
+    data: 0
+    name: "&eArco"
+    lore:
+      - ""
+    enchants: #Encantamento;Nível
+      - POWER;1
+    glow: true
+    slot: 3
+  SuperJump:
+    material: GOLD_PLATE
+    data: 0
+    name: "&eSuper Jump"
+    lore:
+      - ""
+      - "&7Coloque no chão e pule super alto!"
+    glow: false
+    slot: 7
+  EnderPearl:
+    name: "&ePérola do Ender"
+    lore:
+      - ""
+      - "&7Teleporte para qualquer lugar!"
+    glow: false
+    slot: 8
+  Speed:
+    material: FEATHER
+    data: 0
+    name: "&eModo Flash"
+    lore:
+      - ""
+      - "&7Fique 2x mais rápido!"
+    speed-level: 1
+    glow: false
+    slot: 9

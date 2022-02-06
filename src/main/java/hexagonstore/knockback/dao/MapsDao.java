@@ -2,10 +2,12 @@ package hexagonstore.knockback.dao;
 
 import hexagonstore.knockback.KnockbackPlugin;
 import hexagonstore.knockback.models.KMap;
+import lombok.Getter;
 
 import java.io.File;
 import java.util.HashMap;
 
+@Getter
 public class MapsDao {
 
     private HashMap<String, KMap> maps;
